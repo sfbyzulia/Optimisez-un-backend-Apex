@@ -18,7 +18,11 @@ public class TestMyTeamOrdersController {
             
             // Insert the order to get the Id
             insert ord;
-
+            
+            // Using OrderItemFactory to add products in the order
+            List<OrderItem> orderItems = OrderItemFactory.createOrderItems(ord, pbe);
+            insert orderItems;
+            
             // Update the order owner to the sales manager user
             ord.OwnerId = salesManagerUser.Id;
             update ord;
