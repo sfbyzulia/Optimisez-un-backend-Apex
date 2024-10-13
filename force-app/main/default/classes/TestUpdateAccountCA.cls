@@ -22,7 +22,7 @@ private class TestUpdateAccountCA {
 
         // Now, create order items for each order and add them to the orderItems list
         for (Order ord : orders) {
-            orderItems.addAll(TestDataFactory.createOrderItems(ord, pbe));
+            orderItems.addAll(OrderItemFactory.createOrderItems(ord, pbe));         
         }
 
         // Insert order items in bulk
