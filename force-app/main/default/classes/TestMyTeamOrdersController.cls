@@ -1,13 +1,10 @@
 @isTest
 public class TestMyTeamOrdersController {
-    @isTest static void testSumOrders() {
+        @isTest static void testSumOrders() {
         // Get the sales manager user (previously created)
         User salesManagerUser = [SELECT Id, UserRoleId FROM User WHERE Username = 'testuser@fasha.com'];
 
-        // Start test block
         Test.startTest();
-        
-        // Run the test as the Sales Manager
         System.runAs(salesManagerUser) {
             // Create test data
             Account acc = TestDataFactory.createTestAccount();
@@ -31,11 +28,33 @@ public class TestMyTeamOrdersController {
             MyTeamOrdersController controller = new MyTeamOrdersController();
             Decimal totalOrders = controller.SumOrders;
 
-            // Assert that the total orders amount is calculated correctly
             System.assert(totalOrders > 0, 'The total order amount should be greater than 0.');
         }
         
         // End test block
+        Test.stopTest();
+    }
+
+    // Test when no orders exist
+    @isTest static void testSumOrdersNoOrders() {
+        User salesManagerUser = [SELECT Id, UserRoleId FROM User WHERE Username = 'testuser@fasha.com'];
+
+        Test.startTest();
+
+        System.runAs(salesManagerUser) {
+            // Create test data (Account, Product, etc.) without creating any orders
+            Account acc = TestDataFactory.createTestAccount();
+            Product2 prod = TestDataFactory.createTestProduct();
+            PricebookEntry pbe = TestDataFactory.createPricebookEntry(prod);
+            Contract con = TestDataFactory.createContract(acc);
+            
+            // Call the controller method
+            MyTeamOrdersController controller = new MyTeamOrdersController();
+            Decimal totalOrders = controller.SumOrders;
+
+            System.assertEquals(0, totalOrders, 'The total order amount should be 0 when there are no orders.');
+        }
+        
         Test.stopTest();
     }
 }
