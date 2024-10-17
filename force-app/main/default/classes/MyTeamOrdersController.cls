@@ -1,4 +1,4 @@
-public without sharing class MyTeamOrdersController {
+public class MyTeamOrdersController {
     public decimal SumOrders {
         get {
             // Calculate the total orders for the current user

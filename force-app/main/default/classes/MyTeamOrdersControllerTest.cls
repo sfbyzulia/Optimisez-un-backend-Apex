@@ -33,11 +33,8 @@ public class MyTeamOrdersControllerTest {
         Test.startTest();
 
         System.runAs(salesManagerUser) {
-            // Create test data (Account, Product, etc.) without creating any orders
-            Account acc = TestDataFactory.createTestAccount();
-            Product2 prod = TestDataFactory.createTestProduct();
-            PricebookEntry pbe = TestDataFactory.createPricebookEntry(prod);
-            Contract con = TestDataFactory.createContract(acc);
+           // Use the TestDataFactory but skip order creation
+           Map<String, Object> dataMap = TestDataFactory.createBasicDataWithoutOrder();
             
             // Call the controller method
             MyTeamOrdersController controller = new MyTeamOrdersController();

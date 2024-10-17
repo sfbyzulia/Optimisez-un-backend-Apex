@@ -93,4 +93,22 @@ public class TestDataFactory {
 
         return dataMap;
     }
-}
+    
+        // New parent method to create test data without orders
+        public static Map<String, Object> createBasicDataWithoutOrder() {
+            // Create test data for Account, Product, PricebookEntry, and Contract (no Order)
+            Account acc = createTestAccount();
+            Product2 prod = createTestProduct();
+            PricebookEntry pbe = createPricebookEntry(prod);
+            Contract con = createContract(acc);
+    
+            // Return a map with the created data
+            Map<String, Object> dataMap = new Map<String, Object>();
+            dataMap.put('account', acc);
+            dataMap.put('product', prod);
+            dataMap.put('pricebookEntry', pbe);
+            dataMap.put('contract', con);
+    
+            return dataMap;
+        }
+    }    
