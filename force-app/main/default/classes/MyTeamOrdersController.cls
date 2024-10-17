@@ -6,10 +6,8 @@ public without sharing class MyTeamOrdersController {
                 SELECT SUM(TotalAmount) total FROM Order WHERE OwnerId = :UserInfo.getUserId()
             ];
 
-            if (totalOrders.get('total') != null) {
-                return (decimal)totalOrders.get('total');
-            }
-            return 0;
+            // Return the total or 0 if total is null
+            return (totalOrders.get('total') == null) ? 0 : (decimal)totalOrders.get('total');
         }
         set;
     }
