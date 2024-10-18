@@ -1,5 +1,5 @@
 @isTest
-private class TestCalculMontant {
+private class CalculMontantTest {
     @isTest static void testNetAmountCalculation() {
         Test.startTest();  // Start test block
 

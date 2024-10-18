@@ -3,7 +3,7 @@ public class UpdateAccountsTest {
 
     @testSetup
     static void setupData() {
-        // Create basic test data
+        // Create basic test data using TestDataFactory
         Account acc = TestDataFactory.createTestAccount();
         Product2 prod = TestDataFactory.createTestProduct();
         PricebookEntry pbe = TestDataFactory.createPricebookEntry(prod);
@@ -12,25 +12,21 @@ public class UpdateAccountsTest {
         // Create a list of 100 orders using the factory
         List<Order> orders = new List<Order>();
         for (Integer i = 0; i < 100; i++) {
-            // Ensure that no Id is assigned or used during order creation
             Order ord = TestDataFactory.createOrder(acc, con, pbe);
             orders.add(ord);
         }
 
-        // Insert all 100 orders in bulk
-        insert orders;
-
         // Create and add order items for each order
         List<OrderItem> orderItems = new List<OrderItem>();
         for (Order ord : orders) {
-            // Ensure that no Id is assigned or used during OrderItem creation
+            // Add items for the current order
             orderItems.addAll(TestDataFactory.createOrderItems(ord, pbe));
         }
 
         // Insert all order items in bulk
         insert orderItems;
 
-        // Update the status of all orders to 'Activated'
+        // Update the status of all orders to 'Activated' in bulk
         for (Order ord : orders) {
             ord.Status = 'Activated';
         }

@@ -1,5 +1,5 @@
 @isTest
-private class TestUpdateAccountCA {
+private class UpdateAccountCATest {
     @isTest static void testLargeOrderUpdate() {
         Test.startTest();  // Start test block to handle governor limits
 
@@ -22,7 +22,7 @@ private class TestUpdateAccountCA {
 
         // Now, create order items for each order and add them to the orderItems list
         for (Order ord : orders) {
-            orderItems.addAll(OrderItemFactory.createOrderItems(ord, pbe));         
+            orderItems.addAll(TestDataFactory.createOrderItems(ord, pbe));         
         }
 
         // Insert order items in bulk
