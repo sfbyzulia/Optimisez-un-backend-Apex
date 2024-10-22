@@ -2,7 +2,7 @@ global class UpdateAccounts implements Database.Batchable<sObject> {
 
     // This method is used to retrieve the data to process
     global Database.QueryLocator start(Database.BatchableContext bc) {
-        // Query all accounts that have at least one order in status 'Activated' or 'Ordered'
+        // Query all accounts that have at least one order in status 'Activated'
         return Database.getQueryLocator([
             SELECT Id 
             FROM Account 
@@ -19,11 +19,11 @@ global class UpdateAccounts implements Database.Batchable<sObject> {
             accountIds.add(acc.Id);
         }
 
-        // Query orders related to those accounts in 'Activated' or 'Ordered' status
+        // Query orders related to those accounts in 'Activated' status
         List<Order> orders = [
             SELECT AccountId, TotalAmount 
             FROM Order 
-            WHERE AccountId IN :accountIds AND (Status = 'Activated' OR Status = 'Ordered')
+            WHERE AccountId IN :accountIds AND (Status = 'Activated')
         ];
 
         // Call the method to update account revenue
