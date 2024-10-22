@@ -43,4 +43,22 @@ public class UpdateAccountsTest {
         System.assertEquals(expectedRevenue, updatedAccount.Chiffre_d_affaire__c, 
             'The account revenue should be updated based on the orders.');
     }
+    
+    // Test method to verify the scheduler job execution
+    @isTest
+    static void testSchedulerExecution() {
+        // Start the test context
+        Test.startTest();
+
+        // Schedule the job using a test cron expression
+        String cronExp = '0 0 0 ? * 1'; // Every Sunday at midnight
+        String jobId = System.schedule('TestWeeklyAccountUpdate', cronExp, new UpdateAccountsScheduler());
+
+        // End the test context
+        Test.stopTest();
+
+        // Verify the scheduled job exists
+        CronTrigger ct = [SELECT Id, CronExpression, TimesTriggered FROM CronTrigger WHERE Id = :jobId];
+        System.assertEquals(cronExp, ct.CronExpression, 'The cron expression should match.');
+    }
 }
