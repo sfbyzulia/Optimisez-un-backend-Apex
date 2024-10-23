@@ -1,13 +1,10 @@
 @isTest
 public class UpdateAccountCATest {
 
-    // Test setup method using the TestDataFactory
     @testSetup
     static void setupTestData() {
-        // Create test data using the TestDataFactory's createFullOrderData method
+        // Create test data using the TestDataFactory
         Map<String, Object> testData = TestDataFactory.createFullOrderData();
-
-        // Get the order from the created test data
         Order ord = (Order)testData.get('order');
         
         // Initially set the status to 'Draft' and update the order
@@ -16,25 +13,31 @@ public class UpdateAccountCATest {
     }
 
     @isTest
-    static void testUpdateAccountRevenueOnOrderActivated() {
-        // Retrieve the account and order for validation
+    static void testUpdateAccountRevenueWithManyOrders() {
+        // Retrieve the account for validation
         Account acc = [SELECT Id, Chiffre_d_affaire__c FROM Account LIMIT 1];
-        Order ord = [SELECT Id, Status, TotalAmount FROM Order WHERE AccountId = :acc.Id LIMIT 1];
         
+        // Fetch all orders for this account
+        List<Order> orders = [SELECT Id, Status FROM Order WHERE AccountId = :acc.Id];
+        
+        // Simulate updating the orders' status to 'Activated'
         Test.startTest();
         
-        // Activate the order by setting the status to 'Activated'
-        ord.Status = 'Activated';
-        update ord;
-
+        for (Order ord : orders) {
+            ord.Status = 'Activated';
+        }
+        update orders;
+        
         Test.stopTest();
 
-        // Re-query the account after the order status change
-        Account updatedAcc = [SELECT Chiffre_d_affaire__c FROM Account WHERE Id = :acc.Id];
+        // Query the account after the order status changes
+        Account updatedAccount = [SELECT Chiffre_d_affaire__c FROM Account WHERE Id = :acc.Id];
 
-        // Validate that the account revenue was updated correctly
-        Decimal expectedRevenue = ord.TotalAmount;
-        System.assertEquals(expectedRevenue, updatedAcc.Chiffre_d_affaire__c, 
-            'The account revenue should be updated when the order status changes to "Activated".');
+        // Expected revenue from all 100 orders
+        Decimal expectedRevenue = 21500 * 100; // Each order contributes 21,500
+
+        // Assert that the revenue has been updated correctly
+        System.assertEquals(expectedRevenue, updatedAccount.Chiffre_d_affaire__c, 
+            'The account revenue should be updated based on the orders.');
     }
 }
