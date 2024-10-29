@@ -52,7 +52,7 @@ public class UpdateProductsPricingTest {
         // Assert that the prices have been updated (increased by 5%)
         for (PricebookEntry pbe : updatedPricebookEntries) {
             Decimal expectedPrice = pbe.UnitPrice / 1.05; // Reverse the price update logic to validate
-            System.assert(pbe.UnitPrice > expectedPrice, 'Pricebook entry price should have increased by 5%.');
+            Assert.areEqual(pbe.UnitPrice > expectedPrice, 'Pricebook entry price should have increased by 5%.');
         }
     }
 
@@ -70,6 +70,6 @@ public class UpdateProductsPricingTest {
 
         // Verify the scheduled job exists
         CronTrigger ct = [SELECT Id, CronExpression, TimesTriggered FROM CronTrigger WHERE Id = :jobId];
-        System.assertEquals(cronExp, ct.CronExpression, 'The cron expression should match.');
+        Assert.areEqual(cronExp, ct.CronExpression, 'The cron expression should match.');
     }
 }

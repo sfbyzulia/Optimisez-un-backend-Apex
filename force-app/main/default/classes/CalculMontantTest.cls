@@ -15,7 +15,7 @@ private class CalculMontantTest {
         Decimal expectedNetAmount = ordAfter.TotalAmount - ordAfter.ShipmentCost__c;
 
         // Assert that NetAmount is correctly calculated as per the formula field
-        System.assertEquals(expectedNetAmount, ordAfter.NetAmount__c, 
+        Assert.AreEqual(expectedNetAmount, ordAfter.NetAmount__c, 
             'NetAmount should be correctly calculated as TotalAmount - ShipmentCost');
 
         // End the test block

@@ -19,7 +19,7 @@ public class MyTeamOrdersControllerTest {
             MyTeamOrdersController controller = new MyTeamOrdersController();
             Decimal totalOrders = controller.SumOrders;
 
-            System.assert(totalOrders > 0, 'The total order amount should be greater than 0.');
+            Assert.areEqual(totalOrders > 0, 'The total order amount should be greater than 0.');
         }
         
         // End test block
@@ -40,7 +40,7 @@ public class MyTeamOrdersControllerTest {
             MyTeamOrdersController controller = new MyTeamOrdersController();
             Decimal totalOrders = controller.SumOrders;
 
-            System.assertEquals(0, totalOrders, 'The total order amount should be 0 when there are no orders.');
+            Assert.areEqual(0, totalOrders, 'The total order amount should be 0 when there are no orders.');
         }
         
         Test.stopTest();

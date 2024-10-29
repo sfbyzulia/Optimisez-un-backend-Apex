@@ -40,7 +40,7 @@ public class UpdateAccountsTest {
         Decimal expectedRevenue = 21500;
 
         // Assert that the revenue has been updated correctly
-        System.assertEquals(expectedRevenue, updatedAccount.Chiffre_d_affaire__c, 
+        Assert.areEqual(expectedRevenue, updatedAccount.Chiffre_d_affaire__c, 
             'The account revenue should be updated based on the orders.');
     }
     
@@ -59,6 +59,6 @@ public class UpdateAccountsTest {
 
         // Verify the scheduled job exists
         CronTrigger ct = [SELECT Id, CronExpression, TimesTriggered FROM CronTrigger WHERE Id = :jobId];
-        System.assertEquals(cronExp, ct.CronExpression, 'The cron expression should match.');
+        Assert.areEqual(cronExp, ct.CronExpression, 'The cron expression should match.');
     }
 }
