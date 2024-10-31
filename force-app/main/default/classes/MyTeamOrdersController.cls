@@ -9,12 +9,11 @@ public class MyTeamOrdersController {
      * 
      * @return a list of Order records owned by users in the same role/team as the current user.
      */
-    public List<Order> getTeamOrders() {
+    public List<Order> getSumOrders() {
         // Query to retrieve orders for all users in the same role/team as the current user
         return [
             SELECT Id, TotalAmount, Status, Account.Name 
             FROM Order 
-            WHERE Owner.UserRoleId = :UserInfo.getUserRoleId()
         ];
     }
 }
