@@ -10,15 +10,11 @@ public class UpdateAccountsTest {
         // Get the order from the created test data
         Order ord = (Order)testData.get('order');
         
-        // Updating the order status to 'Activated' (If there are no triggers on Order)
-        try {
+        // Updating the order status to 'Activated'
             ord.Status = 'Activated';
             update ord;
-        } catch (DmlException e) {
-            System.debug('Failed to update order: ' + e.getMessage());
-        }
     }
-
+    
     // Test method to verify that account revenue is updated correctly
     @isTest
     static void testAccountRevenueUpdate() {

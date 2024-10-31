@@ -1,6 +1,22 @@
+/**
+ * Handler class responsible for updating the Account revenue field (Chiffre_d_affaire__c) 
+ * based on the TotalAmount of Orders where the Status changes to 'Activated'.
+ * This handler is used in the `UpdateAccountCA` trigger.
+ * 
+ * Methods:
+ * - updateAccountRevenue: Processes a list of Orders, checks for status changes, and updates the 
+ *   corresponding Account's revenue field with the TotalAmount from activated Orders.
+ */
 public class UpdateAccountCAHandler {
 
-    // Method to update account revenue based on orders where the status changes to 'Activated'
+    /**
+     * Updates the Chiffre_d_affaire__c field on Account records based on Orders that were activated.
+     * Accumulates the TotalAmount of Orders for each Account and performs a bulk update on Accounts
+     * whose revenue needs adjustment.
+     * 
+     * @param newOrders List of new Order records.
+     * @param oldOrdersMap Map of old Order records, keyed by Id, to detect status changes.
+     */
     public static void updateAccountRevenue(List<Order> newOrders, Map<Id, Order> oldOrdersMap) {
         Map<Id, Decimal> accountRevenueMap = new Map<Id, Decimal>();
         

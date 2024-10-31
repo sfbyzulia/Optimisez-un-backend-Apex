@@ -1,8 +1,16 @@
+/**
+ * Batch class to update the revenue for all accounts based on the sum of TotalAmount
+ * from activated orders associated with each account. This is used during data migration.
+ */
 global class UpdateAccounts implements Database.Batchable<sObject> {
 
-    // This method is used to retrieve the data to process
+    /**
+     * Start method for the batch, retrieves accounts that have at least one activated order.
+     * 
+     * @param bc The batch context.
+     * @return a QueryLocator for accounts with associated activated orders.
+     */
     global Database.QueryLocator start(Database.BatchableContext bc) {
-        // Query all accounts that have at least one order in status 'Activated'
         return Database.getQueryLocator([
             SELECT Id 
             FROM Account 
@@ -10,31 +18,37 @@ global class UpdateAccounts implements Database.Batchable<sObject> {
         ]);
     }
 
-    // This method is used to process the records in batches
+    /**
+     * Execute method for processing each batch of accounts. This method collects and updates
+     * account revenue based on the total amount from associated activated orders.
+     * 
+     * @param bc The batch context.
+     * @param scope The list of Account objects in the current batch scope.
+     */
     global void execute(Database.BatchableContext bc, List<Account> scope) {
         Set<Id> accountIds = new Set<Id>();
 
-        // Collect Account IDs from the current batch of accounts
         for (Account acc : scope) {
             accountIds.add(acc.Id);
         }
 
-        // Query orders related to those accounts in 'Activated' status
         List<Order> orders = [
             SELECT AccountId, TotalAmount 
             FROM Order 
             WHERE AccountId IN :accountIds AND (Status = 'Activated')
         ];
 
-        // Call the method to update account revenue
         updateAccountRevenue(orders);
     }
 
-    // This method updates the revenue for each account based on their related orders
+    /**
+     * Updates the revenue for each account based on the total amount from their associated orders.
+     * 
+     * @param orders List of orders from which revenue is calculated and added to respective accounts.
+     */
     private void updateAccountRevenue(List<Order> orders) {
         Map<Id, Account> accountMap = new Map<Id, Account>();
 
-        // Loop through orders and accumulate revenue for each account
         for (Order ord : orders) {
             if (ord.AccountId != null && ord.TotalAmount != null) {
                 if (!accountMap.containsKey(ord.AccountId)) {
@@ -45,11 +59,14 @@ global class UpdateAccounts implements Database.Batchable<sObject> {
             }
         }
 
-        // Update all accounts with their updated revenue
         update accountMap.values();
     }
 
-    // This method is called after the batch completes
+    /**
+     * Finish method for the batch, called when the batch job is complete.
+     * 
+     * @param bc The batch context.
+     */    
     global void finish(Database.BatchableContext bc) {
         System.debug('Account revenue updates during data migration are complete.');
     }

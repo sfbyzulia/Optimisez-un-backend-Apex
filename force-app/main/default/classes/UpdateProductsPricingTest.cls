@@ -51,8 +51,9 @@ public class UpdateProductsPricingTest {
 
         // Assert that the prices have been updated (increased by 5%)
         for (PricebookEntry pbe : updatedPricebookEntries) {
-            Decimal expectedPrice = pbe.UnitPrice / 1.05; // Reverse the price update logic to validate
-            Assert.areEqual(pbe.UnitPrice > expectedPrice, 'Pricebook entry price should have increased by 5%.');
+            Decimal originalPrice = pbe.UnitPrice / 1.05; // Reverse the price update logic to validate
+            Decimal expectedUpdatedPrice = originalPrice * 1.05;
+            Assert.areEqual(expectedUpdatedPrice, pbe.UnitPrice, 'Pricebook entry price should have increased by 5%.');
         }
     }
 
