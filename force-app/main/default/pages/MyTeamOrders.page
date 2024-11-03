@@ -1,7 +1,15 @@
 <apex:page controller="MyTeamOrdersController">
     <div>
-        <h1>
-            Sum of my team orders: <apex:outputText value="{!totalOrderSum}" />
-        </h1>
+        <h1>Sum of My Team Orders: <apex:outputText value="{!totalOrderSum}" /></h1>
+        
+        <h2>Team Orders</h2>
+        <apex:pageBlock>
+            <apex:pageBlockTable value="{!teamOrders}" var="order">
+                <apex:column value="{!order.Id}" headerValue="Order ID"/>
+                <apex:column value="{!order.TotalAmount}" headerValue="Total Amount"/>
+                <apex:column value="{!order.Status}" headerValue="Status"/>
+                <apex:column value="{!order.Account.Name}" headerValue="Account Name"/>
+            </apex:pageBlockTable>
+        </apex:pageBlock>
     </div>
 </apex:page>

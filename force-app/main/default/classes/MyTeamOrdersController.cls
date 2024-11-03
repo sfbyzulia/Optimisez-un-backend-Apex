@@ -9,7 +9,7 @@ public class MyTeamOrdersController {
      * 
      * @return a list of Order records available to users in the same role/team as the current user.
      */
-    public List<Order> getSumOrders() {
+    public List<Order> getTeamOrders() {
         // Query to retrieve orders based on role/team visibility set by sharing rules
         return [
             SELECT Id, TotalAmount, Status, Account.Name 

@@ -23,9 +23,12 @@ public class MyTeamOrdersControllerTest {
             MyTeamOrdersController controller = new MyTeamOrdersController();
             List<Order> teamOrders = controller.getTeamOrders();
 
-
             // Assert that the commercial user can see the orders created by the sys admin
             Assert.isTrue(!teamOrders.isEmpty(), 'The commercial should be able to see the team orders.');
+
+            // Assert that the sum of team orders are calculated
+            Decimal totalSum = controller.getTotalOrderSum();
+            Assert.isTrue(totalSum >= 0, 'The total sum of team orders should be calculated.');
         }
         Test.stopTest();
     }
