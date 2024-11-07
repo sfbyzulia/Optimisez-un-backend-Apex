@@ -1,8 +1,8 @@
 /**
- * Handler class for the CalculMontant trigger on the Order object.
+ * Handler class for the CalculateAmount trigger on the Order object.
  * This class contains the logic to calculate the Net Amount for each Order.
  */
-public class CalculMontantHandler {
+public class CalculateAmountHandler {
 
     /**
      * Calculates the Net_Amount__c for each Order record in the provided list.

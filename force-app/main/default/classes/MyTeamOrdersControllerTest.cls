@@ -9,6 +9,10 @@ public class MyTeamOrdersControllerTest {
             // Create test data using TestDataFactory
             Map<String, Object> dataMap = TestDataFactory.createFullOrderData();
             Order ord = (Order) dataMap.get('order');
+
+            // Set the status to 'Activated' for testing
+            ord.Status = 'Activated';
+            update ord;
         }
     }
 

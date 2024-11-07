@@ -14,6 +14,7 @@ public class MyTeamOrdersController {
         return [
             SELECT Id, TotalAmount, Status, Account.Name 
             FROM Order 
+            WHERE Status = 'Activated'
         ];
     }
 
@@ -27,6 +28,7 @@ public class MyTeamOrdersController {
         AggregateResult[] results = [
             SELECT SUM(TotalAmount) totalAmountSum
             FROM Order
+            WHERE Status = 'Activated'
         ];
         
         // Return the sum or 0 if no orders are found
