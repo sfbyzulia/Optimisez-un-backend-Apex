@@ -130,24 +130,4 @@ public class TestDataFactory {
 
         return dataMap;
     }
-    
-    /**
-     * Creates test data for basic setup excluding Orders.
-     * 
-     * @return a map of created data objects excluding Order instances.
-     */
-        public static Map<String, Object> createBasicDataWithoutOrder() {
-            Account acc = createTestAccount();
-            Product2 prod = createTestProduct();
-            PricebookEntry pbe = createPricebookEntry(prod);
-            Contract con = createContract(acc);
-    
-            Map<String, Object> dataMap = new Map<String, Object>();
-            dataMap.put('account', acc);
-            dataMap.put('product', prod);
-            dataMap.put('pricebookEntry', pbe);
-            dataMap.put('contract', con);
-    
-            return dataMap;
-        }
-    }    
+}    
